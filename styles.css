@@ -29,7 +29,11 @@ body {
     margin: 25px;
   }
 
-  .message {
+  .whose-turn {
+    margin-bottom: 30px;
+  }
+
+  .result-message {
     margin-top: 10px;
   }
   

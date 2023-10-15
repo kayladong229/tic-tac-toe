@@ -1,5 +1,6 @@
 const boxes = document.querySelectorAll(".box");
-const message = document.querySelector(".message");
+const resultMessage = document.querySelector(".result-message");
+const turnMessage = document.querySelector(".whose-turn");
 
 const gameBoard = (function () {
   const board = [];
@@ -21,7 +22,7 @@ const gameBoard = (function () {
   const resetBoard = () => {
     boxes.forEach((box) => {
       box.textContent = "";
-      box.style.color = 'black';
+      box.style.color = "black";
     });
   };
 
@@ -45,6 +46,7 @@ const game = (() => {
       createPlayer(prompt(`Enter your opponent's name.`), "O"),
     ];
     currentPlayerIndex = 0;
+    turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
     gameOver = false;
     gameBoard.render();
     boxes.forEach((box) => {
@@ -53,25 +55,33 @@ const game = (() => {
   };
 
   const handleClick = (event) => {
-    if (gameOver) return;
+    if (gameOver) return
 
     let index = event.target.id;
     gameBoard.update(index, players[currentPlayerIndex].marker);
 
     if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
       gameOver = true;
-      message.textContent = `${players[currentPlayerIndex].name} wins!`;
+      resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`;
     } else if (checkForTie(gameBoard.getBoard())) {
       gameOver = true;
-      message.textContent = `It's a tie.`;
+      resultMessage.textContent = `It's a tie.`;
     }
 
-    currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+    if (currentPlayerIndex === 0) {
+      currentPlayerIndex = 1;
+      turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
+    } else if (currentPlayerIndex === 1) {
+      currentPlayerIndex = 0;
+      turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
+    } 
+
   };
 
   const restart = () => {
     gameBoard.resetBoard();
     currentPlayerIndex = 0;
+    turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
     gameOver = false;
     gameBoard.render();
   };
@@ -98,9 +108,10 @@ function checkForWin(board, value) {
       board[a].textContent === board[b].textContent &&
       board[a].textContent === board[c].textContent
     ) {
-      board[a].style.color = 'lime';
-      board[b].style.color = 'lime';
-      board[c].style.color = 'lime';
+      board[a].style.color = "lime";
+      board[b].style.color = "lime";
+      board[c].style.color = "lime";
+      turnMessage.textContent = "";
       return true;
     }
   }
@@ -115,7 +126,7 @@ const checkForTie = (board) => {
 const resetButton = document.querySelector(".reset");
 resetButton.addEventListener("click", () => {
   game.restart();
-  message.textContent = "";
+  resultMessage.textContent = "";
 });
 
 game.start();
