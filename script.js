@@ -62,9 +62,11 @@ const game = (() => {
 
     if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
       gameOver = true;
+      turnMessage.textContent = "";
       resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`;
     } else if (checkForTie(gameBoard.getBoard())) {
       gameOver = true;
+      turnMessage.textContent = "";
       resultMessage.textContent = `It's a tie.`;
     }
 
@@ -111,7 +113,6 @@ function checkForWin(board, value) {
       board[a].style.color = "lime";
       board[b].style.color = "lime";
       board[c].style.color = "lime";
-      turnMessage.textContent = "";
       return true;
     }
   }
