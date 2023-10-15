@@ -1,6 +1,6 @@
 const boxes = document.querySelectorAll(".box");
 const resultMessage = document.querySelector(".result-message");
-const turnMessage = document.querySelector(".whose-turn");
+const playersMessage = document.querySelector(".players");
 
 const gameBoard = (function () {
   const board = [];
@@ -46,7 +46,7 @@ const game = (() => {
       createPlayer(prompt(`Enter your opponent's name.`), "O"),
     ];
     currentPlayerIndex = 0;
-    turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
+    playersMessage.textContent = `Player 1: ${players[0].name} // Player 2: ${players[1].name}`;
     gameOver = false;
     gameBoard.render();
     boxes.forEach((box) => {
@@ -62,20 +62,16 @@ const game = (() => {
 
     if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
       gameOver = true;
-      turnMessage.textContent = "";
       resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`;
     } else if (checkForTie(gameBoard.getBoard())) {
       gameOver = true;
-      turnMessage.textContent = "";
       resultMessage.textContent = `It's a tie.`;
     }
 
     if (currentPlayerIndex === 0) {
       currentPlayerIndex = 1;
-      turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
     } else if (currentPlayerIndex === 1) {
       currentPlayerIndex = 0;
-      turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
     } 
 
   };
@@ -83,7 +79,6 @@ const game = (() => {
   const restart = () => {
     gameBoard.resetBoard();
     currentPlayerIndex = 0;
-    turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
     resultMessage.textContent = "";
     gameOver = false;
     gameBoard.render();
