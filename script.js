@@ -128,7 +128,6 @@ const checkForTie = (board) => {
 const resetButton = document.querySelector(".reset");
 resetButton.addEventListener("click", () => {
   game.restart();
-  resultMessage.textContent = "";
 });
 
 game.start();
