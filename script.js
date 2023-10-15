@@ -8,15 +8,12 @@ const gameBoard = (function () {
   const render = () => {
     boxes.forEach((box) => {
       board.push(box);
+      box.addEventListener("click", game.handleClick);
     });
   };
 
   const update = (index, value) => {
-    if (board[index].textContent === "") {
-      board[index].textContent = value;
-    } else {
-      alert("Please select another box!");
-    }
+    board[index].textContent = value;
   };
 
   const resetBoard = () => {
@@ -47,33 +44,27 @@ const game = (() => {
     ];
     currentPlayerIndex = 0;
     playersMessage.textContent = `Player 1: ${players[0].name} // Player 2: ${players[1].name}`;
-    gameOver = false;
     gameBoard.render();
-    boxes.forEach((box) => {
-      box.addEventListener("click", handleClick);
-    });
   };
 
   const handleClick = (event) => {
-    if (gameOver) return
+    if (gameOver) return;
 
     let index = event.target.id;
-    gameBoard.update(index, players[currentPlayerIndex].marker);
 
-    if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
-      gameOver = true;
-      resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`;
-    } else if (checkForTie(gameBoard.getBoard())) {
-      gameOver = true;
-      resultMessage.textContent = `It's a tie.`;
+    if (gameBoard.getBoard()[index].textContent === "") {
+      gameBoard.update(index, players[currentPlayerIndex].marker);
+      if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
+        resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`
+        gameOver = true;
+      } else if (checkForTie(gameBoard.getBoard())) {
+        resultMessage.textContent = `It's a tie.`;
+        gameOver = true;
+      }
+      currentPlayerIndex = currentPlayerIndex === 0 ? 1 : 0;
+    } else {
+      alert("Please select another box!");
     }
-
-    if (currentPlayerIndex === 0) {
-      currentPlayerIndex = 1;
-    } else if (currentPlayerIndex === 1) {
-      currentPlayerIndex = 0;
-    } 
-
   };
 
   const restart = () => {
