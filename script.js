@@ -84,6 +84,7 @@ const game = (() => {
     gameBoard.resetBoard();
     currentPlayerIndex = 0;
     turnMessage.textContent = `It's ${players[currentPlayerIndex].name}'s turn.`;
+    resultMessage.textContent = "";
     gameOver = false;
     gameBoard.render();
   };
