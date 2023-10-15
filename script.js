@@ -25,11 +25,19 @@ const gameBoard = (function () {
 
   const getBoard = () => board;
 
-  return { render, update, resetBoard, getBoard };
+  return {
+    render,
+    update,
+    resetBoard,
+    getBoard
+  };
 })();
 
 function createPlayer(name, marker) {
-  return { name, marker };
+  return {
+    name,
+    marker
+  };
 }
 
 const game = (() => {
@@ -54,8 +62,10 @@ const game = (() => {
 
     if (gameBoard.getBoard()[index].textContent === "") {
       gameBoard.update(index, players[currentPlayerIndex].marker);
-      if (checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)) {
-        resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`
+      if (
+        checkForWin(gameBoard.getBoard(), players[currentPlayerIndex].marker)
+      ) {
+        resultMessage.textContent = `${players[currentPlayerIndex].name} wins!`;
         gameOver = true;
       } else if (checkForTie(gameBoard.getBoard())) {
         resultMessage.textContent = `It's a tie.`;
@@ -75,7 +85,11 @@ const game = (() => {
     gameBoard.render();
   };
 
-  return { start, handleClick, restart };
+  return {
+    start,
+    handleClick,
+    restart
+  };
 })();
 
 function checkForWin(board, value) {
